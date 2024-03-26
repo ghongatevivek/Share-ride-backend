@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\{DriverController, LoginController};
+use App\Http\Controllers\Api\{DriverController, LoginController, TripController};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,8 +23,13 @@ Route::post('login', [LoginController::class, 'login']);
 Route::post('login/verify', [LoginController::class, 'loginVerify']);
 
 Route::group(['middleware' => 'auth:sanctum'], function(){
+    // Driver routes
     Route::get('driver', [DriverController::class, 'show']);
     Route::post('driver', [DriverController::class,'update']);
+
+    // Trip Routes 
+    Route::get('trip/{trip}', [TripController::class, 'show']);
+    Route::post('trip', [TripController::class,'update']);
 
     Route::get('/user', function(Request $request){
         return $request->user();
