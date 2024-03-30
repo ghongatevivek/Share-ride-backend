@@ -37,4 +37,57 @@ class TripController extends Controller
 
         return response()->json(['message' => 'Cannot find trip'], 404);
     }
+
+    public function accept(Request $request, Trip $trip)
+    {
+        // a driver accept a trip
+        $request->validate([
+            'driver_location' => 'required'
+        ]);
+
+        $trip->update([
+            'driver_id' => $request->user()->id,
+            'driver_location' => $request->driver_location,
+        ]);
+
+        $trip->load('driver.user');
+        return $trip;
+    }
+
+    public function start(Request $request, Trip $trip)
+    {
+        // a driver started taking a passenger to their destination
+        $trip->update([
+            'is_started' => true,
+        ]);
+
+        $trip->load('driver.user');
+        return $trip;
+    }
+
+    public function end(Request $request, Trip $trip)
+    {
+        //a driver has end trip
+        $trip->update([
+            'is_completed' => true,
+        ]);
+
+        $trip->load('driver.user');
+        return $trip;
+    }
+
+    public function location(Request $request, Trip $trip)
+    {
+        // update the driver current location 
+        $request->validate([
+            'driver_location' => 'required'
+        ]);
+
+        $trip->update([
+            'driver_location' => $request->driver_location,
+        ]);
+
+        $trip->load('driver.user');
+        return $trip;
+    }
 }
