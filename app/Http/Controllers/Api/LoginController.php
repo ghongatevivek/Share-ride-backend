@@ -29,7 +29,7 @@ class LoginController extends Controller
         $user->notify(new LoginNeedsNotification());
 
         // return back response     
-        return response()->json(['message'=> 'message send']);
+        return response()->json(['message'=> 'OTP sent on your mobile no']);
     }
 
     public function loginVerify(Request $request)
